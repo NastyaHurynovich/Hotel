@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Просмотр номера{% endblock %}
+{% block sidebar %}
+    {% include 'sidebar.html' with app_name='rooms' %}
+{% endblock %}
+{% block content %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url "index" %}">Домашняя страница</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a href="{% url "rooms:list" %}">Номера</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Просмотр номера</li>
+      </ol>
+    </nav>
+    <h1>Просмотр номера</h1>
+    <p>Номер: {{ room.title }}</p>
+    <p>Тип номера: {{ room.type_room}}</p>
+    <p>Описание: {{ room.description }}</p>
+    <p>Удобства: {{ room.facilities }}</p>
+    <td>{% if perms.user_role.change_role %} <a class="btn btn-primary" href="{% url "rooms:update" room.pk %}">Редактировать</a>{% endif %}</td>
+    <!-- Button trigger modal -->
+    <td>{% if perms.user_role.change_role %}<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Удалить</button>{% endif %}</td>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Удаление записи</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Вы действительно хотите удалить запись?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+            <a type="button" class="btn btn-danger" href="{% url 'rooms:delete' room.pk %}">Удалить</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}

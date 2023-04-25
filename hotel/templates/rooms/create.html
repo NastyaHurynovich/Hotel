@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% block css %}{{ form.media.css }}{% endblock %}
+{% block title %}Создание записи о номере{% endblock %}
+{% block sidebar %}
+    {% include 'sidebar.html' with app_name='rooms' %}
+{% endblock %}
+{% block content %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url "index" %}">Домашняя страница</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a href="{% url "rooms:list" %}">Номера</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Создание записи о номере</li>
+      </ol>
+    </nav>
+    <h1>Создание записи о номере</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-wrapper">
+            {% bootstrap_form form %}
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit">Сохранить</button>
+        </div>
+    </form>
+{% endblock %}
+{% block js %}
+    {{ form.media.js }}
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/ru.js"></script>
+    <script>
+        flatpickr.localize(flatpickr.l10ns.ru)
+    </script>
+{% endblock %}

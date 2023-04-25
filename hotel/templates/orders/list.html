@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Заказы{% endblock %}
+{% block sidebar %}
+    {% include 'sidebar.html' with app_name='orders' %}
+{% endblock %}
+{% block content %}
+<nav class="navbar navbar-dark bg-dark">
+  <!-- Navbar content -->
+</nav>
+<div class="container">
+  <h1>Список заказов</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Название номера</th>
+              <th scope="col">Тип номера</th>
+              <th scope="col">Заезд</th>
+              <th scope="col">Выезд</th>
+              <th scope="col">Количество посетителей</th>
+                <th scope="col">Электронный адрес</th>
+                <th scope="col">Имя Фамилия</th>
+              <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.room.title }}</td>
+                    <td>{{ order.room.type_room }}</td>
+                    <td>{{ order.check_in|date:"d.m.Y" }}</td>
+                    <td>{{ order.check_out|date:"d.m.Y" }}</td>
+                    <td>{{ order.number_of_visitors }}</td>
+                    <td>{{ order.user.email }}</td>
+                    <td>{{ order.user.first_name }} {{ order.user.last_name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% block title %}Номер{% endblock %}
+{% block sidebar %}
+    {% include 'sidebar.html' with app_name='rooms' %}
+{% endblock %}
+{% block content %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url "index" %}">Домашняя страница</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Номера</li>
+      </ol>
+    </nav>
+    <div class="cards-heading">
+        <h1>Номера</h1>
+        {% if perms.rooms.add_room %}
+            <a href="{% url "rooms:create" %}" class="btn add">
+                <span class="material-symbols-outlined">
+                    add
+                </span>
+                <span>Создать запись о номере</span>
+            </a>
+        {% endif %}
+    </div>
+    <div>Количество номеров: {{ paginator.count }}</div>
+    <div class="row row-cols-1 row-cols-md-3 g-4 rooms">
+    {% for room in rooms %}
+      <div class="col">
+        <div class="card h-100 room">
+    {#      <img src="..." class="card-img-top" alt="...">#}
+          <div class="card-body">
+            <h5 class="card-title">
+                <div class="card-title__text">
+                    <span class="material-symbols-outlined">bedroom_parent</span>
+                    <span>{{ room.title }}</span>
+                </div>
+            </h5>
+            <p class="card-text">{{ room.type_room }}</p>
+              <p class="mt-0 mb-3 text-700 line-height-3">{{ room.description }}</p>
+          </div>
+
+          <div class="card-footer">
+              <a class="btn detail" href="{% url 'orders:create' room_id=room.pk%}" role="button">
+                <span>Забронировать</span>
+              <a class="btn detail" href="{% url 'rooms:detail' room.pk %}" role="button">
+                <span>Подробнее</span>
+                <span class="material-symbols-outlined">
+                    arrow_forward
+                </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+    {% if page_obj.has_other_pages %}
+        {% bootstrap_pagination page_obj %}
+    {% endif %}
+
+
+    <ul id="popover-content" class="list-group" style="display: none">
+      <a href="#" class="list-group-item">Edit Room</a>
+      <a href="#" class="list-group-item">Invite Members</a>
+      <a href="#" class="list-group-item">Delete Room</a>
+    </ul>
+{% endblock %}
+
